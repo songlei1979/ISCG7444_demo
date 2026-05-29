@@ -25,7 +25,7 @@ jobs:
         run: |
           docker run -d -p 5001:5001 --name flask-test flask-cicd-demo
           sleep 5
-          curl http://localhost:5000/health
+          curl http://localhost:5001/health
 
       - name: Stop container
         run: docker stop flask-test
@@ -39,7 +39,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t flask-cicd-demo .
+        run: docker build -t flask-cicd-demo . 
 
       - name: Run tests inside Docker container
-        run: docker exec -it flask-cicd-demo pytest
+        run: |
+             docker run --name flask-cicd-container -d flask-cicd-demo
+             docker exec -it flask-cicd-container pytest
