@@ -26,7 +26,7 @@ jobs:
 
     - name: Build
       run: |
-        python app.py
+        timeout 10s flask run
 
   test:
     runs-on: ubuntu-latest
